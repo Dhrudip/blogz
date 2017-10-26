@@ -39,9 +39,9 @@ class User(db.Model):
 
 @app.before_request   
 def require_login():
-    allowed_routes = ['login', 'signup', 'blog', 'index']  
+    allowed_routes = ['login','signup', 'blog', 'index']  
     if request.endpoint not in allowed_routes and 'username' not in session:
-        return redirect('/')
+        return redirect('/login')
  
 
 
@@ -51,16 +51,17 @@ def login():
         username = request.form['username']
         password = request.form["password"]
         user = User.query.filter_by(username=username).first()  
-        if user and user.password == password:  
-            session['username'] = username   
-            flash("Logged in")
-            return redirect('/')
+        if not user:
+            flash("No such username")
+            return redirect("/login")
+        elif user.password != password:
+            flash("Incorrect password")
+            return redirect("/login")
         else:
-            flash("User password incorrect, or user does not exist", "error")
-            return render_template('login.html')
-
-    else:
-        return render_template('login.html')
+            session['username'] = username
+            flash("Logged in")
+            return redirect("/newpost")
+    return render_template("login.html")
 
 
 @app.route('/signup', methods=['GET', 'POST'])
