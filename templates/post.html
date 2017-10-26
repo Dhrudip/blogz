@@ -1,31 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
+<header>
+    <h1>Post</h1>
+</header>
+    <h1 class="post_title">{{blogs.title}}</h1>
+    <p class="post_body">{{blogs.body}}</p>
+    <p class="post_owner">written by <a href="/blog?user={{blogs.owner.id}}">{{ blogs.owner.username }}</a></p>
 
-<h1>Blog Post!</h1>
-<div>
-    {% with messages=get_flashed_messages() %}
-    <ul>
-        {% for message in messages  %}
-        <li>{{message}}</li>
-        {% endfor %}
-    </ul>
-
-       {%endwith%}
-</div>
-
-    
-  <form action="/newpost" method='POST'>
-    <label>
-        Title:
-        <input type="text" name='title' />
-    </label>
-    <label>
-        Body:
-       <textarea  rows="3"  cols="50" name='body'></textarea>
-    </label>
-    <input type="submit" value='Add Post'  />
-</form>
- 
-    
 {% endblock %}
