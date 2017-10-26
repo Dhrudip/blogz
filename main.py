@@ -110,7 +110,7 @@ def blog():
         if user_id:
             user = User.query.get(user_id)
             blogs = Blog.query.filter_by(owner=user).all()
-            return render_template('user.html', blogs=blogs)
+            return render_template('singleUser.html', blogs=blogs)
         
     else:
         blogs = Blog.query.all()
